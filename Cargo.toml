@@ -1,0 +1,12 @@
+[package]
+name = "stuff"
+version = "0.1.0"
+edition = "2018"
+
+[[bench]]
+name = "subvector_bench"
+harness = false
+
+
+[dev-dependencies]
+bencher = "0.1.5"
