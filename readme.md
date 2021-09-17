@@ -10,4 +10,4 @@ because, even though `Some("234dfe3d")` also contains the same amount of
 digits and letters, it comes after the first suitable subslice.
 
 Check the time complexity of your solution and try to implement an
-algorithm that's better than `O(n<sup>2</sup>)`.
+algorithm that's better than O(n<sup>2</sup>).
