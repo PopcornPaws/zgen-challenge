@@ -1,6 +1,6 @@
 pub mod test_inputs;
 
-pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
+pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
     // First calculate position_vec:
     // Initialize all elements as 0
     // Iterate over characters of the slice and save all numbers:
@@ -9,7 +9,7 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
     // position_vec basically describes a path in this alphanumeric space
     // Vector's first element always stays 0 -> starting point
     // Also, save the maximum absolute value of the "positions" for later
-    let mut position_vec = vec![0_i16; input.len()+1];
+    let mut position_vec = vec![0_i16; input.len() + 1];
 
     let mut max_abs = 0_u16;
     /* More elegant solution but slower by ~30 ns/iter ( over 10% increase! ) on my computer
@@ -27,13 +27,13 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
         }
     });
     */
-    
+
     let mut i = 1;
     for c in input.chars() {
-        position_vec[i] = position_vec[i-1];
-        if c.is_digit(10){
+        position_vec[i] = position_vec[i - 1];
+        if c.is_digit(10) {
             position_vec[i] += 1;
-        } else{
+        } else {
             position_vec[i] -= 1;
         }
         let abs = position_vec[i].unsigned_abs();
@@ -42,29 +42,33 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
         }
         i += 1;
     }
-    
+
     let max_abs = usize::from(max_abs);
     if usize::from(max_abs) == input.len() {
         return None;
     }
 
-    // Save the index of the first and last occurences of all possible "positions" in position_vec 
+    // Save the index of the first and last occurences of all possible "positions" in position_vec
     //      from (-max_abs) to max_abs (inclusive on both sides)
     // Use a separate vector for both, with length max_abs * 2 + 1 to always have just enough space
     // Initialize both vectors with appropriate values (MAX or 0)
     // Indexing these vectors is tricky: index of "position" X is (X+max_abs)
     let mut min_indices = vec![usize::MAX; max_abs.checked_mul(2).unwrap().checked_add(1).unwrap()];
     let mut max_indices = vec![0_usize; max_abs.checked_mul(2).unwrap().checked_add(1).unwrap()];
-    
+
     for i in 0..position_vec.len() {
         let pos = position_vec[i];
 
         // The shifting is also tricky because of type constraints
         let shifted_pos;
         if pos.is_negative() {
-            shifted_pos = max_abs.checked_sub(usize::from(pos.unsigned_abs())).unwrap();
+            shifted_pos = max_abs
+                .checked_sub(usize::from(pos.unsigned_abs()))
+                .unwrap();
         } else {
-            shifted_pos = max_abs.checked_add(usize::from(pos.unsigned_abs())).unwrap();
+            shifted_pos = max_abs
+                .checked_add(usize::from(pos.unsigned_abs()))
+                .unwrap();
         }
 
         // If the index is lower/higher than the currently known min/max then save it
@@ -82,7 +86,7 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
     let mut max_len = 0;
     let mut ind = 0;
     for i in 0..min_indices.len() {
-        if let Some(current_len) = max_indices[i].checked_sub(min_indices[i]) { 
+        if let Some(current_len) = max_indices[i].checked_sub(min_indices[i]) {
             if current_len > max_len {
                 max_len = current_len;
                 ind = i;
@@ -94,7 +98,7 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str>{
     // The first of such subarrays' "position" must have lower absolute value
     //      -> it is closer to 0, thus closer to the starting point
     // AND if there were multiple such subarrays of the same size with positive "position" and negative "position",
-    //      then the subarray with "position" 0 must be longer, since the whole path starts on "position" 0 and 
+    //      then the subarray with "position" 0 must be longer, since the whole path starts on "position" 0 and
     //      the path between the two "positions" must cross "position" 0
     if ind < max_abs {
         ind = max_abs - ind;
@@ -115,8 +119,8 @@ pub fn identify_subvector_slow(input: &str) -> Option<&str> {
         let range = i..input.len();
         for (j, ch) in range.clone().zip(input.get(range).unwrap().chars()) {
             if ch.is_digit(10) {
-        //for j in i..input.len() {
-        //    if input[j..j + 1].chars().next().unwrap().is_digit(10) {
+                //for j in i..input.len() {
+                //    if input[j..j + 1].chars().next().unwrap().is_digit(10) {
                 digit_counter += 1
             } else {
                 char_counter += 1

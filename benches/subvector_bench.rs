@@ -91,6 +91,5 @@ benchmark_group!(
     vecs_short_input,
     vecs_medium_input,
     vecs_long_input,
-
 );
 benchmark_main!(benches);
