@@ -75,6 +75,10 @@ mod test {
         assert_eq!(None, identify_subvector_fast("a"));
         assert_eq!(None, identify_subvector_slow("1"));
         assert_eq!(None, identify_subvector_fast("1"));
+        assert_eq!(None, identify_subvector_slow("123455"));
+        assert_eq!(None, identify_subvector_fast("123455"));
+        assert_eq!(None, identify_subvector_slow("abcdefg"));
+        assert_eq!(None, identify_subvector_fast("abcdefg"));
         assert_eq!(Some("1a"), identify_subvector_slow("1a"));
         assert_eq!(Some("1a"), identify_subvector_fast("1a"));
         assert_eq!(Some("1a"), identify_subvector_slow("1ab"));
