@@ -17,8 +17,8 @@ fn vecs_short_input(bench: &mut Bencher) {
 fn vecs_medium_input(bench: &mut Bencher) {
     bench.iter(|| {
         assert_eq!(
-            Some(EXPECTED_SHORT),
-            identify_subvector_vecs(TEST_STR_SHORT)
+            Some(EXPECTED_MEDIUM),
+            identify_subvector_vecs(TEST_STR_MEDIUM)
         );
     });
 }
@@ -26,8 +26,8 @@ fn vecs_medium_input(bench: &mut Bencher) {
 fn vecs_long_input(bench: &mut Bencher) {
     bench.iter(|| {
         assert_eq!(
-            Some(EXPECTED_SHORT),
-            identify_subvector_vecs(TEST_STR_SHORT)
+            Some(EXPECTED_LONG),
+            identify_subvector_vecs(TEST_STR_LONG)
         );
     });
 }
