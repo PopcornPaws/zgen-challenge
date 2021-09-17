@@ -1,3 +1,5 @@
+pub mod test_inputs;
+
 pub fn identify_subvector_slow(input: &str) -> Option<&str> {
     let mut start = 0;
     let mut end = 0;
