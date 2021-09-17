@@ -13,6 +13,8 @@ pub fn identify_subvector_slow(input: &str) -> Option<&str> {
         let range = i..input.len();
         for (j, ch) in range.clone().zip(input.get(range).unwrap().chars()) {
             if ch.is_digit(10) {
+        //for j in i..input.len() {
+        //    if input[j..j + 1].chars().next().unwrap().is_digit(10) {
                 digit_counter += 1
             } else {
                 char_counter += 1
