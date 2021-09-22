@@ -87,19 +87,26 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
     let mut ind = 0;
     for i in 0..min_indices.len() {
         if let Some(current_len) = max_indices[i].checked_sub(min_indices[i]) {
-            if current_len > max_len {
+            // With the current indexing, if there are multiple subarrays with max length, it might not find the first one
+            // The first of such subarrays' "position" must have lower absolute value
+            //      -> it is closer to 0, thus closer to the starting point
+            //      -> the indexes of the longest such subarray is located closer to the middle (max_abs) of min_indices and max_indices
+            // AND if there were multiple such subarrays of the same size with positive "position" and negative "position",
+            //      then the subarray with "position" 0 must be longer, since the whole path starts on "position" 0 and
+            //      the path between the two "positions" must cross "position" 0
+            if i < max_abs {
+                if current_len >= max_len {
+                    max_len = current_len;
+                    ind = i;
+                }
+            } else if current_len > max_len {
                 max_len = current_len;
                 ind = i;
             }
         }
     }
 
-    // With the current indexing, if there are multiple subarrays with max length, it might not find the first one
-    // The first of such subarrays' "position" must have lower absolute value
-    //      -> it is closer to 0, thus closer to the starting point
-    // AND if there were multiple such subarrays of the same size with positive "position" and negative "position",
-    //      then the subarray with "position" 0 must be longer, since the whole path starts on "position" 0 and
-    //      the path between the two "positions" must cross "position" 0
+    
     if ind < max_abs {
         ind = max_abs - ind;
     }
