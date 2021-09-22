@@ -5,77 +5,85 @@ use bencher::Bencher;
 use subvector::test_inputs::*;
 use subvector::*;
 
-fn vecs_short_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_SHORT),
-            identify_subvector_vecs(TEST_STR_SHORT)
-        );
-    });
-}
+//macro_rules! add_bench_functions { 
+//    (#module:expr) => {
+//        fn short_#module(bench: &mut Bencher) {
+//
+//        }
+//    };
+//}
 
-fn vecs_medium_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_MEDIUM),
-            identify_subvector_vecs(TEST_STR_MEDIUM)
-        );
-    });
-}
-
-fn vecs_long_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(Some(EXPECTED_LONG), identify_subvector_vecs(TEST_STR_LONG));
-    });
-}
-
-fn slow_short_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_SHORT),
-            identify_subvector_slow(TEST_STR_SHORT)
-        );
-    });
-}
-
-fn fast_short_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_SHORT),
-            identify_subvector_fast(TEST_STR_SHORT)
-        );
-    });
-}
-
-fn slow_medium_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_MEDIUM),
-            identify_subvector_slow(TEST_STR_MEDIUM)
-        );
-    });
-}
-
-fn fast_medium_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(
-            Some(EXPECTED_MEDIUM),
-            identify_subvector_fast(TEST_STR_MEDIUM)
-        );
-    });
-}
-
-fn slow_long_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(Some(EXPECTED_LONG), identify_subvector_slow(TEST_STR_LONG));
-    });
-}
-
-fn fast_long_input(bench: &mut Bencher) {
-    bench.iter(|| {
-        assert_eq!(Some(EXPECTED_LONG), identify_subvector_fast(TEST_STR_LONG));
-    });
-}
+//fn vecs_short_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_SHORT),
+//            identify_subvector_vecs(TEST_STR_SHORT)
+//        );
+//    });
+//}
+//
+//fn vecs_medium_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_MEDIUM),
+//            identify_subvector_vecs(TEST_STR_MEDIUM)
+//        );
+//    });
+//}
+//
+//fn vecs_long_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_vecs(TEST_STR_LONG));
+//    });
+//}
+//
+//fn slow_short_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_SHORT),
+//            identify_subvector_slow(TEST_STR_SHORT)
+//        );
+//    });
+//}
+//
+//fn fast_short_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_SHORT),
+//            identify_subvector_fast(TEST_STR_SHORT)
+//        );
+//    });
+//}
+//
+//fn slow_medium_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_MEDIUM),
+//            identify_subvector_slow(TEST_STR_MEDIUM)
+//        );
+//    });
+//}
+//
+//fn fast_medium_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(
+//            Some(EXPECTED_MEDIUM),
+//            identify_subvector_fast(TEST_STR_MEDIUM)
+//        );
+//    });
+//}
+//
+//fn slow_long_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_slow(TEST_STR_LONG));
+//    });
+//}
+//
+//fn fast_long_input(bench: &mut Bencher) {
+//    bench.iter(|| {
+//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_fast(TEST_STR_LONG));
+//    });
+//}
 
 benchmark_group!(
     benches,
