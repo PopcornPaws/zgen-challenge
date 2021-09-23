@@ -4,7 +4,7 @@ pub fn identify_subvector(input: &str) -> Option<&str> {
         input => {
             match input
                 .chars()
-                .fold(0_usize, |acc, ch| if ch.is_alphabetic() { acc + 1 } else { acc - 1 })
+                .fold(0_isize, |acc, ch| if ch.is_alphabetic() { acc + 1 } else { acc - 1 })
                 //.map(|char| if char.is_alphabetic() { 1 } else { -1 })
                 //.sum()
             {

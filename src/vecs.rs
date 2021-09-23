@@ -104,10 +104,9 @@
         }
     }
 
-    
-    if ind < max_abs {
-        ind = max_abs - ind;
-    }
+    //if ind < max_abs {
+    //    ind = max_abs - ind;
+    //}
     Some(&input[min_indices[ind]..max_indices[ind]])
 }
 
@@ -124,7 +123,6 @@ fn identify_subvector_test() {
     assert_eq!(Some("dac412b0"), identify_subvector("dac412b02"));
     assert_eq!(Some("b02c"), identify_subvector("12c412b02c"));
     assert_eq!(Some("z12c412bkc"), identify_subvector("z12c412bkc"));
-    // TODO
     assert_eq!(Some("g2"), identify_subvector("abfdg2c"));
     assert_eq!(Some("1a"), identify_subvector("1a345c0023e"));
     assert_eq!(Some("ab19"), identify_subvector("ffab19fffa9f"));
