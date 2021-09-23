@@ -12,7 +12,8 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
     let mut position_vec = vec![0_i16; input.len() + 1];
 
     let mut max_abs = 0_u16;
-    /* More elegant solution but slower by ~30 ns/iter ( over 10% increase! ) on my computer
+    // More elegant solution but slower by around 10% on my computer
+    /*
     input.chars().enumerate().for_each(|(i, ch)| {
         let i = i+1;
         position_vec[i] = position_vec[i-1];
@@ -44,7 +45,7 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
     }
 
     let max_abs = usize::from(max_abs);
-    if usize::from(max_abs) == input.len() {
+    if max_abs == input.len() {
         return None;
     }
 
@@ -56,8 +57,8 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
     let mut min_indices = vec![usize::MAX; max_abs.checked_mul(2).unwrap().checked_add(1).unwrap()];
     let mut max_indices = vec![0_usize; max_abs.checked_mul(2).unwrap().checked_add(1).unwrap()];
 
-    for i in 0..position_vec.len() {
-        let pos = position_vec[i];
+    for (i, pos) in position_vec.iter().enumerate() {
+        //let pos = position_vec[i];
 
         // The shifting is also tricky because of type constraints
         let shifted_pos;
@@ -106,10 +107,6 @@ pub fn identify_subvector_vecs(input: &str) -> Option<&str> {
         }
     }
 
-    
-    if ind < max_abs {
-        ind = max_abs - ind;
-    }
     Some(&input[min_indices[ind]..max_indices[ind]])
 }
 
@@ -211,5 +208,23 @@ mod test {
         assert_eq!(Some("1a"), identify_subvector_slow("1a345c0023e"));
         assert_eq!(Some("1a"), identify_subvector_fast("1a345c0023e"));
         assert_eq!(Some("ab19"), identify_subvector_fast("ffab19fffa9f"));
+    }
+
+    #[test]
+    fn vecs_test() {
+        assert_eq!(None, identify_subvector_vecs(""));
+        assert_eq!(None, identify_subvector_vecs("a"));
+        assert_eq!(None, identify_subvector_vecs("1"));
+        assert_eq!(None, identify_subvector_vecs("123455"));
+        assert_eq!(None, identify_subvector_vecs("abcdefg"));
+        assert_eq!(Some("1a"), identify_subvector_vecs("1a"));
+        assert_eq!(Some("1a"), identify_subvector_vecs("1ab"));
+        assert_eq!(Some("ac412b"), identify_subvector_vecs("0ac412b023"));
+        assert_eq!(Some("dac412b0"), identify_subvector_vecs("dac412b02"));
+        assert_eq!(Some("b02c"), identify_subvector_vecs("12c412b02c"));
+        assert_eq!(Some("z12c412bkc"), identify_subvector_vecs("z12c412bkc"));
+        assert_eq!(Some("z12c412bkc"), identify_subvector_vecs("z12c412bkc"));
+        assert_eq!(Some("1a"), identify_subvector_vecs("1a345c0023e"));
+        assert_eq!(Some("ab19"), identify_subvector_vecs("ffab19fffa9f"));
     }
 }
