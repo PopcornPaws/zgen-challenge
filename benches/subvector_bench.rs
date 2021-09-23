@@ -3,98 +3,77 @@ extern crate bencher;
 
 use bencher::Bencher;
 use subvector::test_inputs::*;
-use subvector::*;
 
-//macro_rules! add_bench_functions { 
-//    (#module:expr) => {
-//        fn short_#module(bench: &mut Bencher) {
-//
-//        }
-//    };
-//}
+macro_rules! add_bench_functions { 
+    ( $( $module:ident ),* ) => {
+        mod short {
+            use super::*;
+        $(
+            pub fn $module(bench: &mut Bencher) {
+                bench.iter(|| {
+                    assert_eq!(
+                        Some(EXPECTED_SHORT),
+                        subvector::$module::identify_subvector(TEST_STR_SHORT)
+                    );
+                });
+            }
+        )*
+        }
 
-//fn vecs_short_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_SHORT),
-//            identify_subvector_vecs(TEST_STR_SHORT)
-//        );
-//    });
-//}
-//
-//fn vecs_medium_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_MEDIUM),
-//            identify_subvector_vecs(TEST_STR_MEDIUM)
-//        );
-//    });
-//}
-//
-//fn vecs_long_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_vecs(TEST_STR_LONG));
-//    });
-//}
-//
-//fn slow_short_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_SHORT),
-//            identify_subvector_slow(TEST_STR_SHORT)
-//        );
-//    });
-//}
-//
-//fn fast_short_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_SHORT),
-//            identify_subvector_fast(TEST_STR_SHORT)
-//        );
-//    });
-//}
-//
-//fn slow_medium_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_MEDIUM),
-//            identify_subvector_slow(TEST_STR_MEDIUM)
-//        );
-//    });
-//}
-//
-//fn fast_medium_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(
-//            Some(EXPECTED_MEDIUM),
-//            identify_subvector_fast(TEST_STR_MEDIUM)
-//        );
-//    });
-//}
-//
-//fn slow_long_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_slow(TEST_STR_LONG));
-//    });
-//}
-//
-//fn fast_long_input(bench: &mut Bencher) {
-//    bench.iter(|| {
-//        assert_eq!(Some(EXPECTED_LONG), identify_subvector_fast(TEST_STR_LONG));
-//    });
-//}
+        mod medium {
+            use super::*;
+        $(
+            pub fn $module(bench: &mut Bencher) {
+                bench.iter(|| {
+                    assert_eq!(
+                        Some(EXPECTED_MEDIUM),
+                        subvector::$module::identify_subvector(TEST_STR_MEDIUM)
+                    );
+                });
+            }
+        )*
+        }
+
+        mod long {
+            use super::*;
+        $(
+            pub fn $module(bench: &mut Bencher) {
+                bench.iter(|| {
+                    assert_eq!(
+                        Some(EXPECTED_LONG),
+                        subvector::$module::identify_subvector(TEST_STR_LONG)
+                    );
+                });
+            }
+        )*
+        }
+
+        // TODO not supported yet
+        //benchmark_group!(
+        //    benches,
+        //    $( $short_idents ),*
+        //    $( $medium_idents ),*
+        //    $( $long_idents ),*
+        //);
+    };
+}
+
+add_bench_functions!(hashmap, quadratic, recursive, vecs);
 
 benchmark_group!(
     benches,
-    slow_short_input,
-    fast_short_input,
-    slow_medium_input,
-    fast_medium_input,
-    slow_long_input,
-    fast_long_input,
-    vecs_short_input,
-    vecs_medium_input,
-    vecs_long_input,
+    short::hashmap,
+    short::quadratic,
+    //short::recursive,
+    short::vecs,
+    medium::hashmap,
+    medium::quadratic,
+    //medium::recursive,
+    medium::vecs,
+    long::hashmap,
+    long::quadratic,
+    //long::recursive,
+    long::vecs,
 );
+
 benchmark_main!(benches);
