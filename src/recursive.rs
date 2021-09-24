@@ -1,3 +1,4 @@
+/*
 pub fn identify_subvector(input: &str) -> Option<&str> {
     match input {
         "" => None,
@@ -25,6 +26,72 @@ pub fn identify_subvector(input: &str) -> Option<&str> {
                 }
             }
         }
+    }
+}
+*/
+fn helper(
+    balances: &Vec<i32>,
+    from: usize,
+    acc: (usize, usize),
+    offset: i32,
+) -> Option<(usize, usize)> {
+    let max_index = balances.len() - 1;
+    let current_length = acc.1 - acc.0 + 1;
+
+    if from == max_index || max_index < current_length + from {
+        if acc.0 == 0 && acc.1 == 0 {
+            return None;
+        }
+        return Some((acc.0, acc.1));
+    }
+
+    let sign = if from == 0 {
+        balances[0]
+    } else {
+        if balances[from] > balances[from - 1] {
+            1
+        } else {
+            -1
+        }
+    };
+
+    let rightmost_zero_position = balances[from..].iter().rposition(|n| *n - offset == 0);
+
+    match rightmost_zero_position {
+        Some(index) => helper(
+            balances,
+            from + 1,
+            if index + 1 > current_length {
+                (from, from + index + 1)
+            } else {
+                acc
+            },
+            offset + sign,
+        ),
+        None => helper(balances, from + 1, acc, offset + sign),
+    }
+}
+
+pub fn identify_subvector(input: &str) -> Option<&str> {
+    if input.len() == 0 {
+        return None;
+    }
+
+    let indexes = helper(
+        &input
+            .chars()
+            .scan(0, |state, char| {
+                *state += if char.is_alphabetic() { -1 } else { 1 };
+                return Some(*state);
+            })
+            .collect(),
+        0,
+        (0, 0),
+        0,
+    );
+    match indexes {
+        None => None,
+        Some((from, to)) => Some(&input[from..to]),
     }
 }
 

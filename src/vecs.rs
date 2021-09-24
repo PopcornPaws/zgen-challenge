@@ -1,4 +1,5 @@
-   pub fn identify_subvector(input: &str) -> Option<&str> {
+
+pub fn identify_subvector(input: &str) -> Option<&str> {
     // First calculate position_vec:
     // Initialize all elements as 0
     // Iterate over characters of the slice and save all numbers:

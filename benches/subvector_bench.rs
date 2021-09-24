@@ -4,7 +4,7 @@ extern crate bencher;
 use bencher::Bencher;
 use subvector::test_inputs::*;
 
-macro_rules! add_bench_functions { 
+macro_rules! add_bench_functions {
     ( $( $module:ident ),* ) => {
         mod short {
             use super::*;
@@ -64,15 +64,15 @@ benchmark_group!(
     benches,
     short::hashmap,
     short::quadratic,
-    //short::recursive,
+    short::recursive,
     short::vecs,
     medium::hashmap,
     medium::quadratic,
-    //medium::recursive,
+    medium::recursive,
     medium::vecs,
     long::hashmap,
     long::quadratic,
-    //long::recursive,
+    long::recursive,
     long::vecs,
 );
 
